@@ -30,4 +30,5 @@ const MONGO_URL ="mongodb+srv://galaxygalactus4:Z4GtzIOtEL8SbRzf@rest-api-cluste
 
 mongoose.Promise = Promise;
 mongoose.connect(MONGO_URL);
+console.log("conected..")
 mongoose.connection.on("error",(error:Error)=> console.log(error))
