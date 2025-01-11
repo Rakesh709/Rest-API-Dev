@@ -4,25 +4,25 @@ import mongoose, { Schema } from "mongoose";
 
 const UserSchema = new Schema({
     username: {
-        type: String,
+        type: "string",
         required: true
     },
     email: {
-        type: String,
+        type: "string",
         required: true
     },
-    authantication: {
+    authentication: {
         password: {
-            type: String,
+            type: "string",
             required: true,
             select: false
         },
         salt: {
-            type: String,
+            type: "string",
             select: false
         },
         sessionToken: {
-            type: String,
+            type: "string",
             select: false
         },
     }
@@ -35,12 +35,15 @@ export const UserModel =  mongoose.model("User",UserSchema)
 export const getUser =( )=>UserModel.find();
 export const getUserByEmail = (email:String)=> UserModel.findOne({email})
 export const getUserBySessionToken =(sessionToken:String)=> UserModel.findOne({
-    'authantication.sessionToken' : sessionToken,
+    'authentication.sessionToken' : sessionToken,
 })
 
 export const getUserById =(id:String) => UserModel.findById(id)
 
-export const createUser = (values : Record<string,any>) => new UserModel(values).save().then((user) => user.toObject())
+export const createUser = (values : Record<string,any>) => new UserModel(values).save().then((user) => user.toObject()).catch((error) => {
+    console.log("Error creating user:", error);
+    throw error;
+});
 
 export const deleteUserById= (id:String) => UserModel.findOneAndDelete({_id:id});
 
