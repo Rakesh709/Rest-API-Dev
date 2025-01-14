@@ -22,7 +22,7 @@ export const login = async (req: express.Request, res: express.Response):Promise
         //validating user without password
         const expecetedHash = authentication(user.authentication.salt, password)
 
-        if(user.authentication.password  != expecetedHash){
+        if(user.authentication.password  !== expecetedHash){
             return res.sendStatus(403)
         }
 

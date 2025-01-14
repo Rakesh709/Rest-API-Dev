@@ -14,12 +14,12 @@ const app = express();
 app.use(express.json())
 app.use('/',router());
 app.use(cors({
-    credentials:true
+    credentials:true,
 }));
 
 app.use(compression());
-app.use(cookieParser())
-app.use(bodyParser.json())
+app.use(cookieParser());
+app.use(bodyParser.json());
 
 const server =  http.createServer(app);
 
