@@ -31,7 +31,7 @@ export const login = async (req: express.Request, res: express.Response):Promise
 
         await user.save();
 
-        res.cookie("RAKESH-AUTH",user.authentication.sessionToken,{domain:'localhost',path:'/'});
+        res.cookie("RAKESH-AUTH",user.authentication.sessionToken,{domain:'localhost',path:'/',expires: new Date(Date.now() + 3600000)});
 
         return res.status(200).json(user).end();
 
@@ -43,7 +43,7 @@ export const login = async (req: express.Request, res: express.Response):Promise
 
 export const register = async (req: express.Request, res: express.Response): Promise<any> => {
     try {
-        console.log("Request Body:", req.body);
+        //console.log("Request Body:", req.body);
         const { email, password, username } = req.body;
 
         if (!email || !password || !username) {

@@ -12,10 +12,11 @@ import router from "./router";
 const app = express();
 
 app.use(express.json())
-app.use('/',router());
+
 app.use(cors({
     credentials:true,
 }));
+//for the authentication
 
 app.use(compression());
 app.use(cookieParser());
@@ -36,4 +37,4 @@ mongoose.connect(MONGO_URL)
 .catch(err => console.log("MongoDB connection error:", err));
 mongoose.connection.on("error",(error:Error)=> console.log(error))
 
-
+app.use('/',router());

@@ -7,16 +7,18 @@ export const isOwner = async (req:express.Request, res: express.Response , next:
     try {
         const {id} = req.params;
         const currentUserId = get(req,'identity._id') as string;
+        console.log("Current User ID:", currentUserId);
+        console.log("Requested User ID:", id);
 
         if(!currentUserId){
-            return res.sendStatus(400)
+            return res.sendStatus(403)
         }
 
         if(currentUserId.toString() !== id){
-            return res.sendStatus(400)
+            return res.sendStatus(403)
         }
 
-        next()
+        next();
     } catch (error) {
         console.log(error);
         return res.sendStatus(400)
@@ -28,15 +30,17 @@ export const isAuthenticated = async (req:express.Request, res:express.Response,
         
         //get the cookies
         const sessionToken = req.cookies['RAKESH-AUTH']
-        console.log("Cookies:", req.cookies);
+        //console.log("Session Token:", sessionToken);
 
         if(!sessionToken){
+            //console.log("No session token found in cookies.");
             return res.sendStatus(403)
         }
 
         const existingUser = await getUserBySessionToken(sessionToken);
-
+        console.log("Existing User:", existingUser);
         if(!existingUser){
+            //console.log("No user found for the provided session token.");
             return res.sendStatus(403)
         }
 

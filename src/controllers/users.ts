@@ -1,12 +1,12 @@
 import express from "express"
 
-import { deleteUserById, getUser, getUserById } from "../db/users";
+import { deleteUserById, getUsers, getUserById } from "../db/users";
 import { identity } from "lodash";
 export const getAllUsers = async (req:express.Request, res: express.Response) : Promise<any>=>{
     try {
         
         
-        const users = await getUser();
+        const users = await getUsers();
 
 
         return res.status(200).json(users)
@@ -16,11 +16,11 @@ export const getAllUsers = async (req:express.Request, res: express.Response) : 
     }
 }
 
-export const deletUser = async (req:express.Request, res:express.Response) :Promise<any> =>{
+export const deleteUser = async (req:express.Request, res:express.Response) :Promise<any> =>{
     try {
         const {id} = req.params;
-        const deletUser = await deleteUserById(id);
-        return res.json(deletUser)
+        const deleteUser = await deleteUserById(id);
+        return res.json(deleteUser)
     } catch (error) {
         console.log(error);
         return res.sendStatus(400);
@@ -37,6 +37,7 @@ export const updateUser = async (req:express.Request, res:express.Response) :Pro
         }
 
         const user = await getUserById(id);
+        user.username =username;
         await user.save();
 
         return res.status(200).json(user).end();
